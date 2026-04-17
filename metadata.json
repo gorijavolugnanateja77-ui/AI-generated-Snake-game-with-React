@@ -1,0 +1,6 @@
+{
+  "name": "[ERR_VOID]: SUB_SYNTH_GRID",
+  "description": "MACHINE_INPUT: OVERRIDE_ACTIVE. Pulse synchronization terminal. Glitch-aware neural interface for grid-based data harvesting and sonic wave capture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

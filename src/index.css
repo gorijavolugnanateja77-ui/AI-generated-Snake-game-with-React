@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "VT323", monospace;
+  --font-mono: "Silkscreen", monospace;
+  
+  --color-glitch-bg: #000000;
+  --color-glitch-cyan: #00ffff;
+  --color-glitch-magenta: #ff00ff;
+  --color-glitch-active: #ffffff;
+  --color-glitch-dim: #333333;
+}
+
+@layer base {
+  body {
+    @apply bg-glitch-bg text-glitch-cyan selection:bg-glitch-magenta selection:text-white overflow-hidden;
+    font-size: 1.25rem;
+  }
+}
+
+/* Glitch Animations */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes noise {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-5%); }
+  20% { transform: translateX(5%); }
+  30% { transform: translateX(-2%); }
+  40% { transform: translateX(1%); }
+  50% { transform: translateX(-3%); }
+  60% { transform: translateX(2%); }
+  70% { transform: translateX(-1%); }
+  80% { transform: translateX(3%); }
+  90% { transform: translateX(-2%); }
+  100% { transform: translateX(0); }
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.glitch-text::before {
+  color: var(--color-glitch-magenta);
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.glitch-text::after {
+  color: var(--color-glitch-cyan);
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+}
+
+.tearing {
+  mask-image: linear-gradient(to bottom, black 0%, transparent 10%, black 20%, transparent 30%, black 40%, transparent 50%, black 60%, transparent 70%, black 80%, transparent 90%, black 100%);
+  animation: noise 0.1s steps(2) infinite;
+}
+
+.static-overlay {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-black border-l border-glitch-dim;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-glitch-magenta/50 hover:bg-glitch-magenta transition-colors;
+}
+
+.panel-border {
+  @apply border border-glitch-magenta shadow-[4px_4px_0px_var(--color-glitch-magenta)];
+}
+
+.panel-border:hover {
+  @apply shadow-[6px_6px_0px_var(--color-glitch-cyan)];
+}
